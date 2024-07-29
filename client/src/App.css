@@ -1,0 +1,17 @@
+.bg-image {
+  background: url("./assets/BackGround.png");
+  height: 100svh;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  overflow: hidden;
+}
+
+.glass-morphism {
+  @apply bg-[#0F0F0F] bg-opacity-90 border border-white border-opacity-30 rounded-md p-4 shadow-lg;
+}
+
+.insuranceList li {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
