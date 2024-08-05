@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
 import { Button } from "../ui/button";
 import {
   Form,
@@ -13,9 +13,21 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 
+import toast from "react-hot-toast";
 import { RegisterSchema } from "../../lib/FormValidation/AuthForms";
+import { useNavigate } from "react-router-dom";
 export const RegisterForm = () => {
-  // 1. Define your form.
+  const navigate = useNavigate();
+  const { mutate, isSuccess, error } = useMutation({
+    mutationFn: async (values: z.infer<typeof RegisterSchema>) =>
+      await fetch("http://localhost:3000/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      }),
+  });
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
@@ -26,14 +38,24 @@ export const RegisterForm = () => {
       country: "",
       dob: "",
       postCode: "",
+      phoneNumber: "",
     },
   });
 
-  // 2. Define a submit handler.
+  if (error) {
+    console.log(error);
+    toast.error("Something went wrong");
+  }
+  // if (isPending) return toast.loading("Creating....");
   function onSubmit(values: z.infer<typeof RegisterSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+    // console.log(values);
+    mutate(values);
+    form.reset();
+    if (isSuccess) {
+      toast.success("Account created successfully");
+      // navigate to login page
+      navigate("/login");
+    }
   }
   return (
     <Form {...form}>
@@ -128,7 +150,7 @@ export const RegisterForm = () => {
                 <FormLabel>Phone Number</FormLabel>
                 <FormControl>
                   <Input
-                    type="tel"
+                    type="text"
                     required
                     placeholder="+880123456789"
                     {...field}

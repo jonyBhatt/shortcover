@@ -13,8 +13,21 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { LoginSchema } from "../../lib/FormValidation/AuthForms";
+import { useMutation } from "@tanstack/react-query";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 export const LoginForm = () => {
-  // 1. Define your form.
+  const navigate = useNavigate();
+  const { mutate, isSuccess, error } = useMutation({
+    mutationFn: async (values: z.infer<typeof LoginSchema>) =>
+      await fetch("http://localhost:3000/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      }),
+  });
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -23,11 +36,14 @@ export const LoginForm = () => {
     },
   });
 
+  if (error) return toast.error("Something went wrong");
+
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof LoginSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+    // console.log(values);
+    mutate(values);
+    form.reset();
+    if (isSuccess) navigate("/");
   }
   return (
     <Form {...form}>
