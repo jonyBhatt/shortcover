@@ -20,7 +20,7 @@ export const RegisterForm = () => {
   const navigate = useNavigate();
   const { mutate, isSuccess, error } = useMutation({
     mutationFn: async (values: z.infer<typeof RegisterSchema>) =>
-      await fetch("http://localhost:3000/api/auth/register", {
+      await fetch("https://shortcover-server.vercel.app/api/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
