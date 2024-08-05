@@ -6,6 +6,8 @@ type AsyncController = (
   next: NextFunction
 ) => Promise<any>;
 
+// This is Async catch errors
+
 export const catchErrors =
   (controller: AsyncController): AsyncController =>
   async (req, res, next) => {
