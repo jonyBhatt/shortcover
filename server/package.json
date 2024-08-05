@@ -6,7 +6,7 @@
   "scripts": {
     "start": "ts-node-dev --files src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "prisma generate && tsc"
+    "build": "npx prisma generate && tsc"
   },
   "dependencies": {
     "@prisma/client": "^5.17.0",
