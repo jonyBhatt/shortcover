@@ -1,5 +1,5 @@
 import "dotenv/config";
-import express from "express";
+import express, { Request, Response } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import { errorHandler } from "./middleware/errorHandler";
@@ -13,11 +13,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(cookieParser());
 
-
-
 // Routes
-app.use("/api/auth", AuthRouter)
-
+app.get("/", (req: Request, res: Response) => {
+  res.send("Hello from nodejs");
+});
+app.use("/api/auth", AuthRouter);
 
 // Error Handler
 app.use(errorHandler);
