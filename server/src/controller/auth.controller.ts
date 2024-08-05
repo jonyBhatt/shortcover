@@ -26,11 +26,16 @@ export const registerController = catchErrors(
     }
 
     const hashedPassword = await bcrypt.hash(body.password, 10);
-    const newUser = await prisma.user.create({
+    await prisma.user.create({
       data: {
-        name: body.name,
-        email: body.email,
+        fistName: body.firstName,
+        lastName: body.lastName,
+        dob: body.dob,
+        phone: body.phone || "",
+        country: body.country,
+        postCode: body.postCode,
         password: hashedPassword,
+        email: body.email,
       },
     });
 
@@ -75,7 +80,11 @@ export const loginController = catchErrors(
 );
 
 //Log out controller
-export  const logOutController = async (req:Request, res:Response, next:NextFunction)=>{
+export const logOutController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   res.clearCookie("auth-token");
   res.status(200).send("Logged out successfully");
-}
+};

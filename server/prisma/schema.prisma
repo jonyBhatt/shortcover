@@ -9,16 +9,22 @@ generator client {
 }
 
 datasource db {
-  provider = "mongodb"
-  url      = env("MONGODB_URI")
+  provider     = "mongodb"
+  url          = env("MONGODB_URI")
+  relationMode = "prisma"
 }
 
 model User {
-  id       String  @id @default(auto()) @map("_id") @db.ObjectId
-  email    String  @unique
-  name     String?
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  email    String @unique
+  fistName String
+  lastName String
+  dob      String
+  phone    String
+  country  String
+  postCode String
   password String
-  Role     String  @default("User")
+  Role     String @default("User")
 
   @@map("users")
 }
