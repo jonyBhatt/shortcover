@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
+import { LoginSchema } from "../../lib/FormValidation/AuthForms";
 import { Button } from "../ui/button";
 import {
   Form,
@@ -12,22 +12,10 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-import { LoginSchema } from "../../lib/FormValidation/AuthForms";
-import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 export const LoginForm = () => {
-  const navigate = useNavigate();
-  const { mutate, isSuccess, error } = useMutation({
-    mutationFn: async (values: z.infer<typeof LoginSchema>) =>
-      await fetch("https://shortcover-server.onrender.com/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(values),
-      }),
-  });
+  const navigate = useNavigate()
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -36,14 +24,25 @@ export const LoginForm = () => {
     },
   });
 
-  if (error) return toast.error("Something went wrong");
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof LoginSchema>) {
+  async function onSubmit(values: z.infer<typeof LoginSchema>) {
     // console.log(values);
-    mutate(values);
-    form.reset();
-    if (isSuccess) navigate("/");
+    await fetch("https://shortcover-server.onrender.com/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(values),
+    }).then(async (res) => {
+      if (!res.ok) {
+        const error = await res.json();
+        toast.error(error.message);
+        return;
+      }
+      if (res.ok) navigate("/")
+    });
+   
   }
   return (
     <Form {...form}>

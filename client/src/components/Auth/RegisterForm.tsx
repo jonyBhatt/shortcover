@@ -14,7 +14,9 @@ import { Input } from "../ui/input";
 
 import { RegisterSchema } from "../../lib/FormValidation/AuthForms";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 export const RegisterForm = () => {
+  const navigate = useNavigate();
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
@@ -38,9 +40,17 @@ export const RegisterForm = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(values),
-    }).then((data) => {
-      console.log(data.json());
-      if (data.ok) toast.success("User Created!");
+    }).then(async (res) => {
+      if (!res.ok) {
+        const error = await res.json();
+        toast.error(error.message);
+        return;
+      }
+      if (res.ok) {
+        form.reset();
+        toast.success("User created successfully");
+        navigate("/login");
+      }
     });
   }
   return (
