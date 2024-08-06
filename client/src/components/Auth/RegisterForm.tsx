@@ -13,6 +13,7 @@ import {
 import { Input } from "../ui/input";
 
 import { RegisterSchema } from "../../lib/FormValidation/AuthForms";
+import toast from "react-hot-toast";
 export const RegisterForm = () => {
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
@@ -38,7 +39,8 @@ export const RegisterForm = () => {
       },
       body: JSON.stringify(values),
     }).then((data) => {
-      console.log(data);
+      console.log(data.json());
+      if (data.ok) toast.success("User Created!");
     });
   }
   return (
