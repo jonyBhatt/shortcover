@@ -1,5 +1,4 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "../ui/button";
@@ -13,12 +12,8 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 
-import toast from "react-hot-toast";
 import { RegisterSchema } from "../../lib/FormValidation/AuthForms";
-import { useNavigate } from "react-router-dom";
 export const RegisterForm = () => {
-  const navigate = useNavigate();
-
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
@@ -33,7 +28,6 @@ export const RegisterForm = () => {
     },
   });
 
-
   // if (isPending) return toast.loading("Creating....");
   async function onSubmit(values: z.infer<typeof RegisterSchema>) {
     // console.log(values);
@@ -43,7 +37,7 @@ export const RegisterForm = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(values),
-    }).then((data)=> data.json())
+    }).then((data) => data.json());
   }
   return (
     <Form {...form}>
