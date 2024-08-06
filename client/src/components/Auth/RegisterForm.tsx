@@ -18,16 +18,7 @@ import { RegisterSchema } from "../../lib/FormValidation/AuthForms";
 import { useNavigate } from "react-router-dom";
 export const RegisterForm = () => {
   const navigate = useNavigate();
-  const { mutate, isSuccess, error } = useMutation({
-    mutationFn: async (values: z.infer<typeof RegisterSchema>) =>
-      await fetch("https://shortcover-server.onrender.com/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(values),
-      }),
-  });
+
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
@@ -42,20 +33,17 @@ export const RegisterForm = () => {
     },
   });
 
-  if (error) {
-    console.log(error);
-    toast.error("Something went wrong");
-  }
+
   // if (isPending) return toast.loading("Creating....");
-  function onSubmit(values: z.infer<typeof RegisterSchema>) {
+  async function onSubmit(values: z.infer<typeof RegisterSchema>) {
     // console.log(values);
-    mutate(values);
-    form.reset();
-    if (isSuccess) {
-      toast.success("Account created successfully");
-      // navigate to login page
-      navigate("/login");
-    }
+    await fetch("https://shortcover-server.onrender.com/api/auth/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(values),
+    }).then((data)=> data.json())
   }
   return (
     <Form {...form}>
