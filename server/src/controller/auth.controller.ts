@@ -69,13 +69,12 @@ export const loginController = catchErrors(
       return res.status(401).send("Password Invalid");
     }
 
-    let payload = {
-      user: user,
-    };
+    const token = jwt.sign({ user: user }, process.env.AUTH_SECRET!);
 
-    const token = jwt.sign(payload, process.env.AUTH_SECRET!);
-
-    res.status(200).header("auth-token", token).send({ "token: ": token });
+    res
+      .status(200)
+      .cookie("auth-token", token)
+      .send({ "token: ": token, user });
   }
 );
 

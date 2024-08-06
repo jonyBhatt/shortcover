@@ -11,17 +11,26 @@ declare global {
 }
 
 export const verifyUser = (req: Request, res: Response, next: NextFunction) => {
-  let token = req.headers.authorization;
+  // console.log(req.cookies);
+
+  let token = req.cookies["auth-token"];
+
+  // console.log(token);
+
   if (!token)
     return res.status(401).send("Access Denied / Unauthorized request");
 
   try {
-    token = token.split(" ")[1];
     if (token === null || !token)
       return res.status(401).send("Unauthorized request");
+    // console.log("JWT Token: ", process.env.AUTH_SECRET);
+
     let verifyUser = jwt.verify(token, process.env.AUTH_SECRET!);
     if (!verifyUser) return res.status(401).send("Unauthorized request");
     req.user = verifyUser as User;
     next();
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+    res.status(500).json("Internal server error");
+  }
 };

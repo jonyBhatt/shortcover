@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import { errorHandler } from "./middleware/errorHandler";
 import { catchErrors } from "./utils/cathAsyncError";
 import { AuthRouter } from "./routes/auth.route";
+import { UserRouter } from "./routes/user.route";
 const app = express();
 
 // Middleware
@@ -22,6 +23,7 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Hello from nodejs");
 });
 app.use("/api/auth", AuthRouter);
+app.use("/api/user", UserRouter);
 
 // Error Handler
 app.use(errorHandler);
