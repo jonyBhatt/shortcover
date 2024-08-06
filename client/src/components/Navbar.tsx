@@ -18,7 +18,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Menu } from "lucide-react";
 export const Navbar = () => {
   const navigate = useNavigate();
-  const isLoggedIn = false;
+  const isLoggedIn = true;
   const logOut = async () => {
     //Implement logout logic here
     await fetch("https://shortcover-server.onrender.com/api/auth/logout", {
