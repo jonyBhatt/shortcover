@@ -39,7 +39,7 @@ export const registerController = catchErrors(
       },
     });
 
-    res.status(201).send("User created successfully");
+    res.status(201).json("User created successfully");
   }
 );
 
