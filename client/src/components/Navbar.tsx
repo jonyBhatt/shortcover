@@ -9,13 +9,20 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "../components/ui/dropdown-menu";
+
+import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
 
 import CustomLink from "./CustomLink";
 import { Button } from "./ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import { Menu } from "lucide-react";
+
 export const Navbar = () => {
   const navigate = useNavigate();
   const isLoggedIn = true;
@@ -98,14 +105,33 @@ export const Navbar = () => {
               </CustomLink>
             </div>
             {isLoggedIn ? (
-              <div className="flex items-center gap-1.5">
-                <CustomLink to="/profile" className="font-medium text-lg">
-                  Profile
-                </CustomLink>
-                <Button size={"lg"} className="font-bold" onClick={logOut}>
-                  Logout
-                </Button>
-              </div>
+              <DropdownMenu>
+                <DropdownMenuTrigger className="outline-none">
+                  <Avatar>
+                    <AvatarImage src="https://github.com/shadcn.png" />
+                    <AvatarFallback>user name</AvatarFallback>
+                  </Avatar>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="bg-secondary">
+                  <DropdownMenuItem>
+                    <Link to={"/profile"}>Profile</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator className="bg-blue-300" />
+                  <DropdownMenuItem>
+                    <Link to={"/dashboard"}>Dashboard</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator className="bg-blue-300" />
+                  <DropdownMenuItem>
+                    <Button
+                      size={"lg"}
+                      variant={"destructive"}
+                      onClick={logOut}
+                    >
+                      Log Out
+                    </Button>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             ) : (
               <Link to="/login">
                 <Button size={"lg"} className="font-bold">
@@ -159,11 +185,33 @@ export const Navbar = () => {
                 </DropdownMenuItem>
 
                 <DropdownMenuItem>
-                  <Link to="/login">
-                    <Button size={"lg"} className="font-bold">
-                      Log In
-                    </Button>
-                  </Link>
+                  <DropdownMenuSub>
+                    <DropdownMenuSubTrigger>
+                      <Avatar>
+                        <AvatarImage src="https://github.com/shadcn.png" />
+                        <AvatarFallback>user name</AvatarFallback>
+                      </Avatar>
+                    </DropdownMenuSubTrigger>
+                    <DropdownMenuSubContent>
+                      <DropdownMenuItem>
+                        <Link to={"/profile"}>Profile</Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator className="bg-blue-300" />
+                      <DropdownMenuItem>
+                        <Link to={"/dashboard"}>Dashboard</Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator className="bg-blue-300" />
+                      <DropdownMenuItem>
+                        <Button
+                          size={"lg"}
+                          variant={"destructive"}
+                          onClick={logOut}
+                        >
+                          Log Out
+                        </Button>
+                      </DropdownMenuItem>
+                    </DropdownMenuSubContent>
+                  </DropdownMenuSub>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
