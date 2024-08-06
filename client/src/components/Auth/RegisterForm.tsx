@@ -37,7 +37,9 @@ export const RegisterForm = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(values),
-    }).then((data) => data.json());
+    }).then((data) => {
+      console.log(data);
+    });
   }
   return (
     <Form {...form}>
