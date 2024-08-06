@@ -20,7 +20,7 @@ export const LoginForm = () => {
   const navigate = useNavigate();
   const { mutate, isSuccess, error } = useMutation({
     mutationFn: async (values: z.infer<typeof LoginSchema>) =>
-      await fetch("http://localhost:3000/api/auth/login", {
+      await fetch("https://shortcover-server.onrender.com/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
