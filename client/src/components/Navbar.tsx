@@ -14,9 +14,24 @@ import {
 
 import CustomLink from "./CustomLink";
 import { Button } from "./ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Menu } from "lucide-react";
 export const Navbar = () => {
+  const navigate = useNavigate();
+  const isLoggedIn = false;
+  const logOut = async () => {
+    //Implement logout logic here
+    await fetch("https://shortcover-server.onrender.com/api/auth/logout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((res) => {
+      if (res.ok) {
+        navigate("/");
+      }
+    });
+  };
   return (
     <nav>
       {/** Top Nav */}
@@ -82,11 +97,22 @@ export const Navbar = () => {
                 Contact us
               </CustomLink>
             </div>
-            <Link to="/login">
-              <Button size={"lg"} className="font-bold">
-                Log In
-              </Button>
-            </Link>
+            {isLoggedIn ? (
+              <div className="flex items-center gap-1.5">
+                <CustomLink to="/profile" className="font-medium text-lg">
+                  Profile
+                </CustomLink>
+                <Button size={"lg"} className="font-bold" onClick={logOut}>
+                  Logout
+                </Button>
+              </div>
+            ) : (
+              <Link to="/login">
+                <Button size={"lg"} className="font-bold">
+                  Log In
+                </Button>
+              </Link>
+            )}
           </div>
 
           {/** Mobile Tablet Screen */}
