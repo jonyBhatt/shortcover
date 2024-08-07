@@ -9,10 +9,7 @@ import { catchErrors } from "../utils/cathAsyncError";
 import bcrypt from "bcrypt";
 import { prisma } from "../utils/db";
 import jwt from "jsonwebtoken";
-import {
-  COOKIE_AUTHENTICATION_TOKEN_EXPIRATION,
-  COOKIE_AUTHENTICATION_TOKEN_NAME,
-} from "../constant/v1AuthenticationCookiesSettings";
+
 export const registerController = catchErrors(
   async (
     req: Request<{}, {}, CreateUserType>,
