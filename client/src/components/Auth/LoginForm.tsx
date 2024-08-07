@@ -14,6 +14,7 @@ import {
 import { Input } from "../ui/input";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { baseUrl } from "../../lib/utils";
 export const LoginForm = () => {
   const navigate = useNavigate();
   const form = useForm<z.infer<typeof LoginSchema>>({
@@ -28,7 +29,7 @@ export const LoginForm = () => {
   async function onSubmit(values: z.infer<typeof LoginSchema>) {
     // console.log(values);
     //https://shortcover-server.onrender.com/api/auth/login
-    await fetch("http://localhost:3000/api/auth/login", {
+    await fetch(`${baseUrl}/api/auth/login`, {
       method: "POST",
       credentials: "include",
       headers: {

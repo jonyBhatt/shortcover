@@ -24,16 +24,25 @@ import { Link, useNavigate } from "react-router-dom";
 import CustomLink from "./CustomLink";
 import { Button } from "./ui/button";
 import { useEffect, useState } from "react";
+import { baseUrl } from "../lib/utils";
 
+interface User {
+  email: string;
+  firstName: string;
+  lastName: string;
+  image?: string;
+  country: string;
+  postcode: string;
+}
 export const Navbar = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User | null>(null);
   const token = localStorage.getItem("token");
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/user/me", {
+        const response = await fetch(`${baseUrl}/api/user/me`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -137,8 +146,10 @@ export const Navbar = () => {
               <DropdownMenu>
                 <DropdownMenuTrigger className="outline-none">
                   <Avatar>
-                    <AvatarImage src="https://github.com/shadcn.png" />
-                    <AvatarFallback>user name</AvatarFallback>
+                    <AvatarImage src={user.image} />
+                    <AvatarFallback>
+                      {user.firstName.slice(0, 1)}
+                    </AvatarFallback>
                   </Avatar>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="bg-secondary">
@@ -219,8 +230,10 @@ export const Navbar = () => {
                       <DropdownMenuSub>
                         <DropdownMenuSubTrigger>
                           <Avatar>
-                            <AvatarImage src="https://github.com/shadcn.png" />
-                            <AvatarFallback>user name</AvatarFallback>
+                            <AvatarImage src={user.image} />
+                            <AvatarFallback>
+                              {user.firstName.slice(0, 1)}
+                            </AvatarFallback>
                           </Avatar>
                         </DropdownMenuSubTrigger>
                         <DropdownMenuSubContent>
