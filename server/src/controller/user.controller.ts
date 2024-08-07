@@ -1,46 +1,24 @@
 import { NextFunction, Request, Response } from "express";
 import { prisma } from "../utils/db";
-
-interface User {
-  id: string;
-  email: string;
-  fistName: string;
-  lastName: string;
-  dob: string;
-  phone: string;
-  country: string;
-  postCode: string;
-  password: string;
-  Role: string;
-}
-
-interface AuthUser {
-  user: User;
-  iat: number;
-}
+import { AuthRequest } from "../middleware/auth.middleware";
 
 export const getCurrentUser = async (
-  req: Request,
+  req: AuthRequest,
   res: Response,
   next: NextFunction
 ) => {
-  const authUser = req.user as unknown as AuthUser;
-  // console.log(authUser.user.email);
-  if (!authUser || !authUser.user || !authUser.user.email) {
-    return res.status(401).json({ message: "Not authorized" });
-  }
-
+  console.log(req.user);
+  // Find user and return it
   try {
     const user = await prisma.user.findUnique({
       where: {
-        email: authUser.user.email,
+        email: req.user?.email,
       },
     });
 
-    if (!user)
-      return res.status(404).json({
-        message: "Not found!",
-      });
+    if (!user) {
+      return res.status(404).json({ message: "Not found" });
+    }
 
     res.status(200).json({
       firstName: user.fistName,

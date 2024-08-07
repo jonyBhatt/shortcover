@@ -9,6 +9,10 @@ import { catchErrors } from "../utils/cathAsyncError";
 import bcrypt from "bcrypt";
 import { prisma } from "../utils/db";
 import jwt from "jsonwebtoken";
+import {
+  COOKIE_AUTHENTICATION_TOKEN_EXPIRATION,
+  COOKIE_AUTHENTICATION_TOKEN_NAME,
+} from "../constant/v1AuthenticationCookiesSettings";
 export const registerController = catchErrors(
   async (
     req: Request<{}, {}, CreateUserType>,
@@ -61,20 +65,21 @@ export const loginController = catchErrors(
     });
 
     if (!user) {
-      return res.status(401).send("Cannot find user!");
+      return res.status(401).json("Cannot find user!");
     }
 
     const validPass = bcrypt.compare(body.password, user.password!);
     if (!validPass) {
-      return res.status(401).send("Password Invalid");
+      return res.status(401).json("Password Invalid");
     }
 
-    const token = jwt.sign({ user: user }, process.env.AUTH_SECRET!);
+    const token = jwt.sign(
+      { id: user.id, email: user.email, role: user.Role },
+      process.env.AUTH_SECRET!,
+      { expiresIn: "2h" }
+    );
 
-    res
-      .status(200)
-      .cookie("auth-token", token)
-      .send({ "token: ": token, user });
+    res.status(200).json({ token, user });
   }
 );
 
@@ -84,6 +89,6 @@ export const logOutController = async (
   res: Response,
   next: NextFunction
 ) => {
-  res.clearCookie("auth-token");
+  res.clearCookie("token");
   res.status(200).send("Logged out successfully");
 };

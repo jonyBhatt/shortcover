@@ -1,36 +1,38 @@
-import { User } from "@prisma/client";
-import { NextFunction, Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
-declare global {
-  namespace Express {
-    interface Request {
-      user: User;
-    }
-  }
+export interface AuthRequest extends Request {
+  user?: {
+    id: string;
+    email: string;
+    role: string;
+    image?: string;
+  };
 }
 
-export const verifyUser = (req: Request, res: Response, next: NextFunction) => {
-  // console.log(req.cookies);
+export const verifyUser = (
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  const token = req.header("Authorization")?.replace("Bearer ", "");
+  // console.log("Auth Token:", token);
 
-  let token = req.cookies["auth-token"];
-
-  // console.log(token);
-
-  if (!token)
-    return res.status(401).send("Access Denied / Unauthorized request");
+  if (!token) {
+    return res
+      .status(401)
+      .json({ message: "Access denied. No token provided." });
+  }
 
   try {
-    if (token === null || !token)
-      return res.status(401).send("Unauthorized request");
-    // console.log("JWT Token: ", process.env.AUTH_SECRET);
-
-    let verifyUser = jwt.verify(token, process.env.AUTH_SECRET!);
-    if (!verifyUser) return res.status(401).send("Unauthorized request");
-    req.user = verifyUser as User;
+    const decoded = jwt.verify(token, process.env.AUTH_SECRET!) as {
+      id: string;
+      email: string;
+      role: string;
+    };
+    req.user = decoded;
     next();
-  } catch (error) {
-    console.log(error);
-    res.status(500).json("Internal server error");
+  } catch (ex) {
+    res.status(400).json({ message: "Invalid token." });
   }
 };
