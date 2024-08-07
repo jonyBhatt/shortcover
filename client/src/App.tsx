@@ -16,7 +16,7 @@ import { useRouteContext } from "./context/NavLinkProvider";
 
 function App() {
   const { currentRoute } = useRouteContext();
-  console.log(currentRoute);
+  // console.log(currentRoute);
 
   return (
     <div>
