@@ -15,7 +15,7 @@ import { Input } from "../ui/input";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 export const LoginForm = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -24,15 +24,17 @@ export const LoginForm = () => {
     },
   });
 
-
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof LoginSchema>) {
     // console.log(values);
-    await fetch("https://shortcover-server.onrender.com/api/auth/login", {
+    //https://shortcover-server.onrender.com/api/auth/login
+    await fetch("http://localhost:3000/api/auth/login", {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
+
       body: JSON.stringify(values),
     }).then(async (res) => {
       if (!res.ok) {
@@ -40,9 +42,19 @@ export const LoginForm = () => {
         toast.error(error.message);
         return;
       }
-      if (res.ok) navigate("/")
+      if (res.ok) {
+        const data = await res.json();
+        // console.log(data);
+
+        const token = data.token;
+        console.log(token);
+        if (token) {
+          localStorage.setItem("token", data.token);
+          navigate("/");
+          navigate(0);
+        }
+      }
     });
-   
   }
   return (
     <Form {...form}>

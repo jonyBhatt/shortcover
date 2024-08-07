@@ -18,27 +18,56 @@ import {
 
 import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
 
+import { Menu } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+// import { useCurrentUser } from "../hooks/useCurrentuser";
 import CustomLink from "./CustomLink";
 import { Button } from "./ui/button";
-import { Link, useNavigate } from "react-router-dom";
-import { Menu } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export const Navbar = () => {
   const navigate = useNavigate();
-  const isLoggedIn = true;
+  const [user, setUser] = useState(null);
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/api/user/me", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const data = await response.json();
+        console.log("User Data:", data);
+        setUser(data);
+
+        // Set loading state to false after a 3-second delay
+      } catch (err) {
+        console.error("Fetch error:", err);
+      }
+    };
+
+    fetchUserData();
+    // navigate(0);
+  }, []);
+
+  console.log(user);
+
   const logOut = async () => {
     //Implement logout logic here
-    await fetch("https://shortcover-server.onrender.com/api/auth/logout", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then((res) => {
-      if (res.ok) {
-        navigate("/");
-      }
-    });
+    localStorage.removeItem("token");
+    navigate(0);
+    navigate("/login");
   };
+
   return (
     <nav>
       {/** Top Nav */}
@@ -104,7 +133,7 @@ export const Navbar = () => {
                 Contact us
               </CustomLink>
             </div>
-            {isLoggedIn ? (
+            {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger className="outline-none">
                   <Avatar>
@@ -185,33 +214,45 @@ export const Navbar = () => {
                 </DropdownMenuItem>
 
                 <DropdownMenuItem>
-                  <DropdownMenuSub>
-                    <DropdownMenuSubTrigger>
-                      <Avatar>
-                        <AvatarImage src="https://github.com/shadcn.png" />
-                        <AvatarFallback>user name</AvatarFallback>
-                      </Avatar>
-                    </DropdownMenuSubTrigger>
-                    <DropdownMenuSubContent>
-                      <DropdownMenuItem>
-                        <Link to={"/profile"}>Profile</Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator className="bg-blue-300" />
-                      <DropdownMenuItem>
-                        <Link to={"/dashboard"}>Dashboard</Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator className="bg-blue-300" />
-                      <DropdownMenuItem>
-                        <Button
-                          size={"lg"}
-                          variant={"destructive"}
-                          onClick={logOut}
-                        >
-                          Log Out
+                  {user ? (
+                    <>
+                      <DropdownMenuSub>
+                        <DropdownMenuSubTrigger>
+                          <Avatar>
+                            <AvatarImage src="https://github.com/shadcn.png" />
+                            <AvatarFallback>user name</AvatarFallback>
+                          </Avatar>
+                        </DropdownMenuSubTrigger>
+                        <DropdownMenuSubContent>
+                          <DropdownMenuItem>
+                            <Link to={"/profile"}>Profile</Link>
+                          </DropdownMenuItem>
+                          <DropdownMenuSeparator className="bg-blue-300" />
+                          <DropdownMenuItem>
+                            <Link to={"/dashboard"}>Dashboard</Link>
+                          </DropdownMenuItem>
+                          <DropdownMenuSeparator className="bg-blue-300" />
+                          <DropdownMenuItem>
+                            <Button
+                              size={"lg"}
+                              variant={"destructive"}
+                              onClick={logOut}
+                            >
+                              Log Out
+                            </Button>
+                          </DropdownMenuItem>
+                        </DropdownMenuSubContent>
+                      </DropdownMenuSub>
+                    </>
+                  ) : (
+                    <>
+                      <Link to="/login">
+                        <Button size={"lg"} className="font-bold">
+                          Log In
                         </Button>
-                      </DropdownMenuItem>
-                    </DropdownMenuSubContent>
-                  </DropdownMenuSub>
+                      </Link>
+                    </>
+                  )}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
