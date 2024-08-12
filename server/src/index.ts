@@ -6,6 +6,7 @@ import { errorHandler } from "./middleware/errorHandler";
 import { catchErrors } from "./utils/cathAsyncError";
 import { AuthRouter } from "./routes/auth.route";
 import { UserRouter } from "./routes/user.route";
+import { PlateRouter } from "./routes/plate.route";
 const app = express();
 
 // Middleware
@@ -25,6 +26,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 app.use("/api/auth", AuthRouter);
 app.use("/api/user", UserRouter);
+app.use("/api/plate", PlateRouter);
 
 // Error Handler
 app.use(errorHandler);
