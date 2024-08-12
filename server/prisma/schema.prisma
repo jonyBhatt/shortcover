@@ -28,3 +28,9 @@ model User {
 
   @@map("users")
 }
+
+model VehiclePlateDetails {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  plateNumber String
+  desc        String
+}
