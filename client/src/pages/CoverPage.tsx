@@ -4,6 +4,10 @@ import CoverDetailsForm from "../components/CoverPage/form/CoverForm";
 
 import { Button } from "../components/ui/button";
 import PersonalFormDetails from "../components/CoverPage/form/PersonalDetailsForm";
+import { useQuery } from "@tanstack/react-query";
+import { baseUrl } from "../lib/utils";
+
+// import { baseUrl } from "../lib/utils";
 
 const FormSteps = [
   "CoverDetailsForm",
@@ -16,11 +20,27 @@ const FormSteps = [
 const CoverPage: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [regNumberDriver, setRegNumberDriver] = useState("");
+  // const [plateDetails, setPlateDetails] = useState("")
 
   const navigate = useNavigate();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const regNumber = searchParams.get("reg");
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["fetchPlateById"],
+    queryFn: () => fetchPlateDetails(),
+  });
+
+  const fetchPlateDetails = async () => {
+    try {
+      const res = await fetch(`${baseUrl}/api/plate/${regNumber}`);
+      const data = await res.json();
+      return data;
+    } catch (error) {
+      // console.log(error);
+    }
+  };
 
   useEffect(() => {
     const hash = location.hash.slice(1);
@@ -28,7 +48,22 @@ const CoverPage: React.FC = () => {
     if (stepIndex !== -1) {
       setCurrentStep(stepIndex);
     }
+
+    // const fetchPlateDetails = async () => {
+    //   try {
+    //     const res = await fetch(`http://localhost:3000/api/plate/${regNumber}`);
+    //     const data = await res.json();
+    //     console.log(data);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // };
+
+    // fetchPlateDetails();
   }, [location]);
+
+  // console.log(data);
+  if (isLoading) return <p>Loading...</p>;
 
   const handleGetQuote = () => {
     if (regNumberDriver) {
@@ -64,7 +99,13 @@ const CoverPage: React.FC = () => {
     switch (FormSteps[currentStep]) {
       case "CoverDetailsForm":
         if (regNumber) {
-          return <CoverDetailsForm nextStep={nextStep} regNumber={regNumber} />;
+          return (
+            <CoverDetailsForm
+              nextStep={nextStep}
+              regNumber={regNumber}
+              desc={data.desc}
+            />
+          );
         }
         break;
       case "PersonalDetailsForm":

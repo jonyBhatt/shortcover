@@ -5,11 +5,17 @@ import { Button } from "../../ui/button";
 
 import { NextPreviousProps } from "../../../lib/types";
 import { useFormData } from "../../../hooks/useFormData";
+import { Link } from "react-router-dom";
 
 interface CoverProps extends NextPreviousProps {
   regNumber: string;
+  desc: string;
 }
-export default function CoverDetailsForm({ nextStep, regNumber }: CoverProps) {
+export default function CoverDetailsForm({
+  nextStep,
+  regNumber,
+  desc,
+}: CoverProps) {
   const { formData, updateFormData } = useFormData("coverDetails");
   const [durationType, setDurationType] = useState("Days");
   const [dates, setDates] = useState<{ value: string; label: string }[]>([]);
@@ -159,15 +165,10 @@ export default function CoverDetailsForm({ nextStep, regNumber }: CoverProps) {
 
         <div className="bg-white text-black p-4 rounded-lg mb-4">
           <div className="flex items-center mb-2">{regNumber}</div>
-          <div className="text-sm">
-            <p className="font-bold">BMW 420D M SPORT</p>
-            <p className="text-gray-600">
-              420D M SPORT, 1995CC, DIESEL, 2017-2020
-            </p>
-          </div>
-          <a href="#" className="text-blue-500 text-sm">
+          <div className="text-sm">{desc}</div>
+          <Link to="/" className="text-blue-500 text-sm">
             Change Vehicle
-          </a>
+          </Link>
         </div>
 
         <div className="mb-4">

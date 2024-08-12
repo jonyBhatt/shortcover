@@ -55,7 +55,7 @@ export const Navbar = () => {
         }
 
         const data = await response.json();
-        console.log("User Data:", data);
+        // console.log("User Data:", data);
         setUser(data);
 
         // Set loading state to false after a 3-second delay
