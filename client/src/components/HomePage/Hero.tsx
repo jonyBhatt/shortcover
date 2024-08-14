@@ -5,6 +5,7 @@ import Star from "../../assets/yellow-start.png";
 import { useRouteContext } from "../../context/NavLinkProvider";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import GB from "../../assets/gb.png";
 export const Hero = () => {
   const { currentRoute } = useRouteContext();
   const [regNumber, setRegNumber] = useState("");
@@ -69,8 +70,8 @@ export const Hero = () => {
             </span>
 
             <div className="flex items-start lg:items-center w-full flex-col lg:flex-row gap-4 ">
-              <div className="py-2  bg-white flex items-start w-full lg:w-auto gap-4">
-                <span className="font-lato">GB</span>
+              <div className="  bg-white flex items-center w-full lg:w-auto gap-4 rounded">
+                <img src={GB} alt="gb" className="w-12 h-12" />
                 <input
                   type="text"
                   placeholder="Enter Reg"
@@ -80,7 +81,7 @@ export const Hero = () => {
                 />
               </div>
               <Button
-                className="py-2 w-[230px] px-4 bg-white flex items-center justify-center gap-10 group"
+                className="py-6 w-[230px] px-4 bg-white flex items-center justify-center gap-10 group"
                 onClick={handleGetQuote}
               >
                 <span

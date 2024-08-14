@@ -7,8 +7,6 @@ import PersonalFormDetails from "../components/CoverPage/form/PersonalDetailsFor
 import { useQuery } from "@tanstack/react-query";
 import { baseUrl } from "../lib/utils";
 
-// import { baseUrl } from "../lib/utils";
-
 const FormSteps = [
   "CoverDetailsForm",
   "PersonalDetailsForm",
@@ -38,7 +36,7 @@ const CoverPage: React.FC = () => {
       const data = await res.json();
       return data;
     } catch (error) {
-      // console.log(error);
+      console.log(error);
     }
   };
 
@@ -48,18 +46,6 @@ const CoverPage: React.FC = () => {
     if (stepIndex !== -1) {
       setCurrentStep(stepIndex);
     }
-
-    // const fetchPlateDetails = async () => {
-    //   try {
-    //     const res = await fetch(`http://localhost:3000/api/plate/${regNumber}`);
-    //     const data = await res.json();
-    //     console.log(data);
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // };
-
-    // fetchPlateDetails();
   }, [location]);
 
   // console.log(data);
@@ -67,11 +53,8 @@ const CoverPage: React.FC = () => {
 
   const handleGetQuote = () => {
     if (regNumberDriver) {
-      // Encode the registration number to handle special characters
       const encodedRegNumber = encodeURIComponent(regNumberDriver);
-      // Navigate to the cover page with the registration number as a URL parameter
       navigate(`/cover?reg=${encodedRegNumber}#CoverDetailsForm`);
-      // console.log(encodedRegNumber);
     }
   };
 

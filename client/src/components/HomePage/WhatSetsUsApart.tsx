@@ -1,5 +1,6 @@
 import React from "react";
-import { Button } from "../ui/button";
+// import { Button } from "../ui/button";
+import { TempModal } from "../modal/TempModal";
 
 interface FeatureProps {
   title?: string;
@@ -32,7 +33,11 @@ export const WhatSetsUsApart = () => {
           <FeatureCard description="All policies are fully comprehensive" />
           <FeatureCard description="Easy to use online quote form, get short term cover in 60 seconds." />
           <div className="text-center">
-            <Button size="lg">Get A Quote Now</Button>
+            <TempModal
+              className="py-2 px-8 bg-primary text-white"
+              triggerButton="Get A Quote Now"
+            />
+            {/* <Button size="lg">Get A Quote Now</Button> */}
           </div>
         </div>
       </div>

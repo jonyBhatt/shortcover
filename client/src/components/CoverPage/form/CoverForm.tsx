@@ -5,7 +5,8 @@ import { Button } from "../../ui/button";
 
 import { NextPreviousProps } from "../../../lib/types";
 import { useFormData } from "../../../hooks/useFormData";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
+import { TempModal } from "../../modal/TempModal";
 
 interface CoverProps extends NextPreviousProps {
   regNumber: string;
@@ -166,9 +167,10 @@ export default function CoverDetailsForm({
         <div className="bg-white text-black p-4 rounded-lg mb-4">
           <div className="flex items-center mb-2">{regNumber}</div>
           <div className="text-sm">{desc}</div>
-          <Link to="/" className="text-blue-500 text-sm">
+          <TempModal triggerButton="Change Vehicle" />
+          {/* <Link to="/" className="text-blue-500 text-sm">
             Change Vehicle
-          </Link>
+          </Link> */}
         </div>
 
         <div className="mb-4">
