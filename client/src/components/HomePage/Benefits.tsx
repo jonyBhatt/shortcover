@@ -58,7 +58,7 @@ export const Benefits = () => {
             />
             <BenefitsCard
               title="It's fast"
-              content="Getting a temporary car insurance quote is super-quick. It takes just 90 seconds online or with just a few taps in the Tempcover App."
+              content="Getting a temporary car insurance quote is super-quick. It takes just 90 seconds online or with just a few taps in the Shortcover App."
             />
             <BenefitsCard
               title="No impact on NCD"

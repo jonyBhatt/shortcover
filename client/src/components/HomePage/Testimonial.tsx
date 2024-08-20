@@ -14,7 +14,7 @@ const testimonials: Testimonial[] = [
     image: ExpertImage,
     name: "John Doe",
     rating: 5,
-    text: "Tempcover provided excellent service. The process was quick and easy!",
+    text: "Shortcover provided excellent service. The process was quick and easy!",
     date: "2024-07-05",
   },
   {
@@ -33,7 +33,7 @@ export const TestimonialSection: React.FC = () => {
         Customer Satisfaction
       </h2>
       <p className="text-center mb-8">
-        Tempcover has provided temporary vehicle insurance to hundreds of
+        Shortcover has provided temporary vehicle insurance to hundreds of
         thousands of drivers for over 15 years.
       </p>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

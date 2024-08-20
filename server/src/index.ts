@@ -14,7 +14,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: ["https://shortcover.onrender.com", "http://localhost:5173"],
+    origin: [
+      "https://shortcover.onrender.com",
+      "http://localhost:5173",
+      "https://shortcover.co/",
+    ],
     credentials: true,
   })
 );

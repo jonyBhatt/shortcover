@@ -110,7 +110,7 @@ const CoverPage: React.FC = () => {
         <>{renderForm()}</>
       ) : (
         <>
-          <div className="flex items-center gap-4 bg-gray-200 p-4 rounded-lg">
+          <div className="flex items-center gap-4 bg-gray-200 py-8 rounded-lg justify-center">
             <div className="py-2 w-[230px] px-4  flex items-start gap-4">
               <span className="font-lato ">GB</span>
               <input

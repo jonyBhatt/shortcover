@@ -32,7 +32,7 @@ export const ExpertSay = () => {
     <div>
       <ExpertSection
         image={ExpertImage}
-        quote="Tempcover offers a seamless and efficient insurance service. Their temporary coverage is both comprehensive and flexible, making it perfect for any short-term needs."
+        quote="Shortcover offers a seamless and efficient insurance service. Their temporary coverage is both comprehensive and flexible, making it perfect for any short-term needs."
         name="Dr. Jane Doe"
         designation="Chief Insurance Analyst"
       />
