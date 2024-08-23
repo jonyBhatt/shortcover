@@ -1,3 +1,4 @@
+// import { useEffect } from "react";
 import "./App.css";
 import { About } from "./components/HomePage/About";
 import { Benefits } from "./components/HomePage/Benefits";
