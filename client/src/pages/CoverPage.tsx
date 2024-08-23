@@ -30,6 +30,8 @@ const CoverPage: React.FC = () => {
     queryFn: () => fetchPlateDetails(),
   });
 
+  
+
   const fetchPlateDetails = async () => {
     try {
       const res = await fetch(`${baseUrl}/api/plate/${regNumber}`);
@@ -39,6 +41,30 @@ const CoverPage: React.FC = () => {
       console.log(error);
     }
   };
+
+  // const fetchCarDetails = async () => {
+  //   try {
+  //     const res = await fetch(
+  //       `https://driver-vehicle-licensing.api.gov.uk/vehicle-enquiry/v1/vehicles`,
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "x-api-key": "Uh4355KksJ42TxG94aDcC9G4wo5QocfL2h1llQgE",
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     );
+  //     const data = await res.json();
+  //     console.log(data);
+  //     return data;
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   fetchCarDetails();
+  // }, []);
 
   useEffect(() => {
     const hash = location.hash.slice(1);
