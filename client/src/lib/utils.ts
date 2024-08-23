@@ -5,4 +5,4 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const baseUrl = "https://shortcover.onrender.com/";
+export const baseUrl = "https://shortcover.onrender.com";
