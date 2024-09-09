@@ -34,3 +34,32 @@ model VehiclePlateDetails {
   plateNumber String
   desc        String
 }
+
+model InsuranceDetails {
+  id                   String @id @default(auto()) @map("_id") @db.ObjectId
+  reason               String
+  durationType         String
+  length               String
+  date                 String
+  time                 String
+  endDate              String
+  driverTitle          String
+  driverFirstName      String
+  driverLastName       String
+  firstLineAddress     String
+  secondLineAddress    String
+  town                 String
+  postCode             String
+  county               String
+  dob                  String
+  job                  String
+  driverEmail          String 
+  driverPhone          String
+  country              String
+  licenseType          String
+  drivingLicenseNumber String
+  extraDriver          String
+  totalPayable         String
+
+  @@map("insuranceDetails")
+}
