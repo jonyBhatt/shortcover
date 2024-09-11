@@ -5,6 +5,7 @@ import Login from "../auth/Login";
 import Register from "../auth/Register";
 
 import { lazy } from "react";
+import AboutPage from "../pages/AboutPage";
 
 // const waitOneMinute = () => {
 //   return new Promise<void>((resolve) => {
@@ -42,6 +43,10 @@ export const router = createBrowserRouter([
       {
         path: "/cover",
         element: <CoverPage />,
+      },
+      {
+        path: "/about",
+        element: <AboutPage />,
       },
     ],
   },
